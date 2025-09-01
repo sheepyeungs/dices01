@@ -19,6 +19,30 @@
       position: relative;
     }
 
+    h1 {
+      position: absolute;
+      top: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      color: #222;
+      margin: 0;
+      z-index: 3;
+    }
+
+    .sky {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60%;
+      background-image: linear-gradient(white 1px, transparent 1px),
+                        linear-gradient(90deg, white 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: 0;
+    }
+
     .ground {
       position: absolute;
       top: 60%;
@@ -32,21 +56,25 @@
     }
 
     .container {
-      display: flex;
-      justify-content: space-around;
-      align-items: flex-end;
       width: 100%;
       max-width: 1100px;
-      margin-bottom: 180px;
+      margin-bottom: 240px;
       z-index: 1;
       position: relative;
+      height: 300px;
     }
 
     .scene {
       width: 90px;
       height: 90px;
       perspective: 800px;
-      position: relative;
+      position: absolute;
+      cursor: grab;
+      transition: left 0.8s ease, top 0.8s ease;
+    }
+
+    .scene:active {
+      cursor: grabbing;
     }
 
     .cube {
@@ -103,29 +131,48 @@
       opacity: 0.6;
     }
 
+    .buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
     button {
       padding: 10px 20px;
       background: white;
       border: 2px solid #333;
-      font-size: 18px;
+      font-size: 16px;
       cursor: pointer;
       border-radius: 5px;
-      margin-bottom: 20px;
       z-index: 2;
       position: relative;
+      transition: transform 0.1s, background 0.2s;
+    }
+
+    button:active {
+      transform: scale(0.95);
+      background: #f0f0f0;
     }
 
     .sum-box {
       border: 2px solid #333;
-      padding: 10px 20px;
+      padding: 8px 16px;
       border-radius: 5px;
       background: #fff;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: bold;
       text-align: center;
       z-index: 2;
       position: relative;
-      margin-bottom: 40px;
     }
 
     .blink {
@@ -138,79 +185,126 @@
 
     .label {
       position: absolute;
-      bottom: 10px;
+      bottom: 5px;
       right: 15px;
       font-size: 14px;
       color: #222;
       opacity: 0.8;
       font-style: italic;
     }
+
+    .group-label {
+      position: absolute;
+      font-size: 18px;
+      font-weight: bold;
+      color: #111;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
+  <h1>Richard C Y YEUNG, EdUHK</h1>
+  <div class="sky"></div>
   <div class="ground"></div>
 
-  <div class="container">
-    <div class="scene"><div class="cube" id="cube1">
+  <div class="container" id="cubeContainer">
+    <div class="scene" id="scene1"><div class="cube" id="cube1">
       <div class="face front"><span class="number">1</span></div>
       <div class="face back"><span class="number">2</span></div>
       <div class="face right"><span class="number">3</span></div>
       <div class="face left"><span class="number">4</span></div>
       <div class="face top"><span class="number">5</span></div>
       <div class="face bottom"><span class="number">6</span></div>
-    </div><div class="shadow" id="shadow1"></div></div>
+    </div><div class="shadow"></div></div>
 
-    <div class="scene"><div class="cube" id="cube2">
+    <div class="scene" id="scene2"><div class="cube" id="cube2">
       <div class="face front"><span class="number">1</span></div>
       <div class="face back"><span class="number">2</span></div>
       <div class="face right"><span class="number">3</span></div>
       <div class="face left"><span class="number">4</span></div>
       <div class="face top"><span class="number">5</span></div>
       <div class="face bottom"><span class="number">6</span></div>
-    </div><div class="shadow" id="shadow2"></div></div>
+    </div><div class="shadow"></div></div>
 
-    <div class="scene"><div class="cube" id="cube3">
+    <div class="scene" id="scene3"><div class="cube" id="cube3">
       <div class="face front"><span class="number">1</span></div>
       <div class="face back"><span class="number">2</span></div>
       <div class="face right"><span class="number">3</span></div>
       <div class="face left"><span class="number">4</span></div>
       <div class="face top"><span class="number">5</span></div>
       <div class="face bottom"><span class="number">6</span></div>
-    </div><div class="shadow" id="shadow3"></div></div>
+    </div><div class="shadow"></div></div>
 
-    <div class="scene"><div class="cube" id="cube4">
+    <div class="scene" id="scene4"><div class="cube" id="cube4">
       <div class="face front"><span class="number">1</span></div>
       <div class="face back"><span class="number">2</span></div>
       <div class="face right"><span class="number">3</span></div>
       <div class="face left"><span class="number">4</span></div>
       <div class="face top"><span class="number">5</span></div>
       <div class="face bottom"><span class="number">6</span></div>
-    </div><div class="shadow" id="shadow4"></div></div>
+    </div><div class="shadow"></div></div>
 
-    <div class="scene"><div class="cube" id="cube5">
+    <div class="scene" id="scene5"><div class="cube" id="cube5">
       <div class="face front"><span class="number">1</span></div>
       <div class="face back"><span class="number">2</span></div>
       <div class="face right"><span class="number">3</span></div>
       <div class="face left"><span class="number">4</span></div>
       <div class="face top"><span class="number">5</span></div>
       <div class="face bottom"><span class="number">6</span></div>
-    </div><div class="shadow" id="shadow5"></div></div>
+    </div><div class="shadow"></div></div>
+
+    <div class="scene" id="scene6"><div class="cube" id="cube6">
+      <div class="face front"><span class="number">1</span></div>
+      <div class="face back"><span class="number">2</span></div>
+      <div class="face right"><span class="number">3</span></div>
+      <div class="face left"><span class="number">4</span></div>
+      <div class="face top"><span class="number">5</span></div>
+      <div class="face bottom"><span class="number">6</span></div>
+    </div><div class="shadow"></div></div>
   </div>
 
-  <button id="throwBtn">Throw the Dices</button>
-  <div class="sum-box" id="sumBox">Sum: -</div>
+  <div class="controls">
+    <button id="throwBtn">Throw the Dices</button>
+    <div class="sum-box" id="sumBox">Sum: -</div>
+    <div class="sum-box" id="sumA" style="display:none;">Sum A: -</div>
+    <div class="sum-box" id="sumB" style="display:none;">Sum B: -</div>
+    <div class="sum-box" id="sumC" style="display:none;">Sum C: -</div>
+  </div>
 
-  <div class="label">Demo of AI-created Simulation, EdUHK, 2025</div>
+  <div class="buttons">
+    <button id="resetBtn">Reset</button>
+    <button id="twoLineBtn">2-line</button>
+    <button id="randomBtn">Random</button>
+    <button id="twoGroupBtn">2-Group</button>
+    <button id="threeGroupBtn">3-Group</button>
+  </div>
+
+  <div class="group-label" id="labelA" style="display:none;">Group A</div>
+  <div class="group-label" id="labelB" style="display:none;">Group B</div>
+  <div class="group-label" id="labelC" style="display:none;">Group C</div>
+
+  <div class="label">Demo of GenAI-created Simulations, EdUHK</div>
 
   <script>
     const cubes = [
-      { cube: document.getElementById('cube1') },
-      { cube: document.getElementById('cube2') },
-      { cube: document.getElementById('cube3') },
-      { cube: document.getElementById('cube4') },
-      { cube: document.getElementById('cube5') }
+      { cube: document.getElementById('cube1'), scene: document.getElementById('scene1') },
+      { cube: document.getElementById('cube2'), scene: document.getElementById('scene2') },
+      { cube: document.getElementById('cube3'), scene: document.getElementById('scene3') },
+      { cube: document.getElementById('cube4'), scene: document.getElementById('scene4') },
+      { cube: document.getElementById('cube5'), scene: document.getElementById('scene5') },
+      { cube: document.getElementById('cube6'), scene: document.getElementById('scene6') }
     ];
     const sumBox = document.getElementById('sumBox');
+    const sumA = document.getElementById('sumA');
+    const sumB = document.getElementById('sumB');
+    const sumC = document.getElementById('sumC');
+    const labelA = document.getElementById('labelA');
+    const labelB = document.getElementById('labelB');
+    const labelC = document.getElementById('labelC');
+    const container = document.getElementById('cubeContainer');
+    const groundY = window.innerHeight * 0.6;
+
+    let dragEnabled = true;
 
     const rotations = {
       1: {x: 0,   y: 0},
@@ -221,26 +315,199 @@
       6: {x: 90,  y: 0}
     };
 
-    // Randomize initial orientation
-    cubes.forEach(c => {
+    function randomizeOrientation(cube) {
       const initX = Math.floor(Math.random() * 360);
       const initY = Math.floor(Math.random() * 360);
-      c.cube.style.transform = `rotateX(${initX}deg) rotateY(${initY}deg)`;
-    });
+      cube.style.transform = `rotateX(${initX}deg) rotateY(${initY}deg)`;
+    }
+
+    function hideGroupMode() {
+      sumA.style.display = "none";
+      sumB.style.display = "none";
+      sumC.style.display = "none";
+      sumBox.style.display = "block";
+      labelA.style.display = "none";
+      labelB.style.display = "none";
+      labelC.style.display = "none";
+      dragEnabled = true;
+    }
+
+    function lineUpCubes() {
+      hideGroupMode();
+      const spacing = 140;
+      const startX = container.clientWidth / 2 - spacing * (cubes.length - 1) / 2;
+      const centerY = container.clientHeight * 0.8;
+      cubes.forEach((c, i) => {
+        c.scene.style.left = `${startX + i * spacing}px`;
+        c.scene.style.top = `${centerY}px`;
+        c.scene.style.transform = "translate(-50%, -50%)";
+        randomizeOrientation(c.cube);
+      });
+      sumBox.textContent = "Sum: -";
+    }
+
+    function twoLineCubes() {
+      hideGroupMode();
+      const spacing = 160;
+      const startX = container.clientWidth / 2 - spacing;
+      const centerY = container.clientHeight * 0.75;
+      cubes.forEach((c, i) => {
+        const row = Math.floor(i / 3);
+        const col = i % 3;
+        c.scene.style.left = `${startX + col * spacing}px`;
+        c.scene.style.top = `${centerY + (row === 0 ? -80 : 80)}px`;
+        c.scene.style.transform = "translate(-50%, -50%)";
+        randomizeOrientation(c.cube);
+      });
+      sumBox.textContent = "Sum: -";
+    }
+
+    function randomCubes() {
+      hideGroupMode();
+      const positions = [];
+      const padding = 140;
+      const minDist = 120;
+      function isFarEnough(x, y) {
+        return positions.every(p => Math.hypot(p.x - x, p.y - y) > minDist);
+      }
+      cubes.forEach(c => {
+        let x, y;
+        do {
+          x = Math.random() * (container.clientWidth - padding * 2) + padding;
+          y = Math.random() * (container.clientHeight * 0.4) + container.clientHeight * 0.5;
+        } while (!isFarEnough(x, y));
+        positions.push({x, y});
+        c.scene.style.left = `${x}px`;
+        c.scene.style.top = `${y}px`;
+        c.scene.style.transform = "translate(-50%, -50%)";
+        randomizeOrientation(c.cube);
+      });
+      sumBox.textContent = "Sum: -";
+    }
+
+    function twoGroupCubes() {
+      sumBox.style.display = "none";
+      sumA.style.display = "block";
+      sumB.style.display = "block";
+      sumC.style.display = "none";
+      labelA.style.display = "block";
+      labelB.style.display = "block";
+      labelC.style.display = "none";
+      dragEnabled = false;
+
+      const centerX = container.clientWidth / 2;
+      const baseY = container.clientHeight * 0.7;
+
+      const groupAPos = [
+        {x: centerX - 200, y: baseY},
+        {x: centerX - 260, y: baseY + 100},
+        {x: centerX - 140, y: baseY + 100}
+      ];
+      const groupBPos = [
+        {x: centerX + 200, y: baseY},
+        {x: centerX + 140, y: baseY + 100},
+        {x: centerX + 260, y: baseY + 100}
+      ];
+
+      [0,1,2].forEach((i, idx) => {
+        const pos = groupAPos[idx];
+        cubes[i].scene.style.left = pos.x + "px";
+        cubes[i].scene.style.top = pos.y + "px";
+        cubes[i].scene.style.transform = "translate(-50%, -50%)";
+        randomizeOrientation(cubes[i].cube);
+      });
+
+      [3,4,5].forEach((i, idx) => {
+        const pos = groupBPos[idx];
+        cubes[i].scene.style.left = pos.x + "px";
+        cubes[i].scene.style.top = pos.y + "px";
+        cubes[i].scene.style.transform = "translate(-50%, -50%)";
+        randomizeOrientation(cubes[i].cube);
+      });
+
+      labelA.style.left = centerX - 200 + "px";
+      labelA.style.top = baseY - 100 + "px";
+      labelA.style.transform = "translateX(-50%)";
+      labelB.style.left = centerX + 200 + "px";
+      labelB.style.top = baseY - 100 + "px";
+      labelB.style.transform = "translateX(-50%)";
+
+      sumA.textContent = "Sum A: -";
+      sumB.textContent = "Sum B: -";
+    }
+
+    function threeGroupCubes() {
+      sumBox.style.display = "none";
+      sumA.style.display = "block";
+      sumB.style.display = "block";
+      sumC.style.display = "block";
+      labelA.style.display = "block";
+      labelB.style.display = "block";
+      labelC.style.display = "block";
+      dragEnabled = false;
+
+      const centerX = container.clientWidth / 2;
+      const baseY = container.clientHeight * 0.72;
+
+      const groupAPos = [
+        {x: centerX - 260, y: baseY},
+        {x: centerX - 200, y: baseY + 100}
+      ];
+      const groupBPos = [
+        {x: centerX, y: baseY},
+        {x: centerX, y: baseY + 100}
+      ];
+      const groupCPos = [
+        {x: centerX + 260, y: baseY},
+        {x: centerX + 200, y: baseY + 100}
+      ];
+
+      [0,1].forEach((i, idx) => {
+        const pos = groupAPos[idx];
+        cubes[i].scene.style.left = pos.x + "px";
+        cubes[i].scene.style.top = pos.y + "px";
+        cubes[i].scene.style.transform = "translate(-50%, -50%)";
+        randomizeOrientation(cubes[i].cube);
+      });
+
+      [2,3].forEach((i, idx) => {
+        const pos = groupBPos[idx];
+        cubes[i].scene.style.left = pos.x + "px";
+        cubes[i].scene.style.top = pos.y + "px";
+        cubes[i].scene.style.transform = "translate(-50%, -50%)";
+        randomizeOrientation(cubes[i].cube);
+      });
+
+      [4,5].forEach((i, idx) => {
+        const pos = groupCPos[idx];
+        cubes[i].scene.style.left = pos.x + "px";
+        cubes[i].scene.style.top = pos.y + "px";
+        cubes[i].scene.style.transform = "translate(-50%, -50%)";
+        randomizeOrientation(cubes[i].cube);
+      });
+
+      labelA.style.left = centerX - 230 + "px";
+      labelA.style.top = baseY - 100 + "px";
+      labelA.style.transform = "translateX(-50%)";
+      labelB.style.left = centerX + "px";
+      labelB.style.top = baseY - 100 + "px";
+      labelB.style.transform = "translateX(-50%)";
+      labelC.style.left = centerX + 230 + "px";
+      labelC.style.top = baseY - 100 + "px";
+      labelC.style.transform = "translateX(-50%)";
+
+      sumA.textContent = "Sum A: -";
+      sumB.textContent = "Sum B: -";
+      sumC.textContent = "Sum C: -";
+    }
 
     function throwDice(cubeObj) {
       const cube = cubeObj.cube;
       const result = Math.floor(Math.random() * 6) + 1;
       const {x, y} = rotations[result];
-
-      // add some random full rotations for realism
       const extraX = Math.floor(Math.random() * 4) * 360;
       const extraY = Math.floor(Math.random() * 4) * 360;
-
-      // rotate ONCE only, to final orientation
       cube.style.transform = `rotateX(${x + extraX + 20}deg) rotateY(${y + extraY + 25}deg)`;
-
-      // blink winning face
       setTimeout(() => {
         let faceSelector;
         switch (result) {
@@ -254,17 +521,70 @@
         cube.querySelectorAll('.number').forEach(num => num.classList.remove('blink'));
         cube.querySelector(faceSelector + ' .number').classList.add('blink');
       }, 1000);
-
       return result;
     }
 
     document.getElementById('throwBtn').addEventListener('click', () => {
       const results = cubes.map(c => throwDice(c));
       setTimeout(() => {
-        const sum = results.reduce((a,b)=>a+b,0);
-        sumBox.textContent = `Sum: ${sum}`;
+        if (sumA.style.display === "block" && sumC.style.display === "none") {
+          const groupAResults = results.slice(0,3);
+          const groupBResults = results.slice(3,6);
+          sumA.textContent = `Sum A: ${groupAResults.reduce((a,b)=>a+b,0)}`;
+          sumB.textContent = `Sum B: ${groupBResults.reduce((a,b)=>a+b,0)}`;
+        } else if (sumC.style.display === "block") {
+          const groupAResults = results.slice(0,2);
+          const groupBResults = results.slice(2,4);
+          const groupCResults = results.slice(4,6);
+          sumA.textContent = `Sum A: ${groupAResults.reduce((a,b)=>a+b,0)}`;
+          sumB.textContent = `Sum B: ${groupBResults.reduce((a,b)=>a+b,0)}`;
+          sumC.textContent = `Sum C: ${groupCResults.reduce((a,b)=>a+b,0)}`;
+        } else {
+          const sum = results.reduce((a,b)=>a+b,0);
+          sumBox.textContent = `Sum: ${sum}`;
+        }
       }, 1100);
     });
+
+    document.getElementById('resetBtn').addEventListener('click', lineUpCubes);
+    document.getElementById('twoLineBtn').addEventListener('click', twoLineCubes);
+    document.getElementById('randomBtn').addEventListener('click', randomCubes);
+    document.getElementById('twoGroupBtn').addEventListener('click', twoGroupCubes);
+    document.getElementById('threeGroupBtn').addEventListener('click', threeGroupCubes);
+
+    let dragTarget = null;
+    let offsetX = 0, offsetY = 0;
+
+    cubes.forEach(c => {
+      c.scene.addEventListener('mousedown', e => {
+        if (!dragEnabled) return;
+        dragTarget = c.scene;
+        const rect = dragTarget.getBoundingClientRect();
+        offsetX = e.clientX - (rect.left);
+        offsetY = e.clientY - (rect.top);
+        e.preventDefault();
+      });
+    });
+
+    window.addEventListener('mousemove', e => {
+      if (dragTarget && dragEnabled) {
+        let newLeft = e.clientX - offsetX + dragTarget.offsetWidth/2;
+        let newTop = e.clientY - offsetY + dragTarget.offsetHeight/2;
+        const cubeBottom = newTop + dragTarget.offsetHeight / 2;
+        if (cubeBottom > groundY) {
+          newTop = groundY - dragTarget.offsetHeight / 2;
+        }
+        dragTarget.style.left = `${newLeft}px`;
+        dragTarget.style.top = `${newTop}px`;
+        dragTarget.style.transform = "translate(-50%, -50%)";
+      }
+    });
+
+    window.addEventListener('mouseup', () => {
+      dragTarget = null;
+    });
+
+    lineUpCubes();
   </script>
 </body>
 </html>
